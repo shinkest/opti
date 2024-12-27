@@ -180,8 +180,17 @@ def main():
     recursos_disponibles_ej_10 = [18, 18, 19]  # R[j]: recursos disponibles en cada semana
     #FIN DE EJEMPLOS
 
-    #Se resuelva ejemplos cambiando solamente numero de ejemplo dentro de parametros
-    resultados = planificar_hospital(prioridad_ej_10, pacientes_ej_10, capacidad_ej_10, recursos_por_paciente_ej_10, recursos_disponibles_ej_10)
+    #Se resuelva ejemplos descomentando solamente la linea con ejemplo de interes
+    #resultados = planificar_hospital(prioridad_ej_1, pacientes_ej_1, capacidad_ej_1, recursos_por_paciente_ej_1, recursos_disponibles_ej_1)
+    #resultados = planificar_hospital(prioridad_ej_2, pacientes_ej_2, capacidad_ej_2, recursos_por_paciente_ej_2, recursos_disponibles_ej_2)
+    #resultados = planificar_hospital(prioridad_ej_3, pacientes_ej_3, capacidad_ej_3, recursos_por_paciente_ej_3, recursos_disponibles_ej_3)
+    #resultados = planificar_hospital(prioridad_ej_4, pacientes_ej_4, capacidad_ej_4, recursos_por_paciente_ej_4, recursos_disponibles_ej_4)
+    #resultados = planificar_hospital(prioridad_ej_5, pacientes_ej_5, capacidad_ej_5, recursos_por_paciente_ej_5, recursos_disponibles_ej_5)
+    #resultados = planificar_hospital(prioridad_ej_6, pacientes_ej_6, capacidad_ej_6, recursos_por_paciente_ej_6, recursos_disponibles_ej_6)
+    #resultados = planificar_hospital(prioridad_ej_7, pacientes_ej_7, capacidad_ej_7, recursos_por_paciente_ej_7, recursos_disponibles_ej_7)
+    #resultados = planificar_hospital(prioridad_ej_8, pacientes_ej_8, capacidad_ej_8, recursos_por_paciente_ej_8, recursos_disponibles_ej_8)
+    #resultados = planificar_hospital(prioridad_ej_9, pacientes_ej_9, capacidad_ej_9, recursos_por_paciente_ej_9, recursos_disponibles_ej_9)
+    #resultados = planificar_hospital(prioridad_ej_10, pacientes_ej_10, capacidad_ej_10, recursos_por_paciente_ej_10, recursos_disponibles_ej_10)
 
     # Mostrar los resultados
     print("Estado de la solución:", resultados["estado"])
