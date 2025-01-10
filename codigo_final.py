@@ -181,7 +181,7 @@ def main():
     #FIN DE EJEMPLOS
 
     #Se resuelva ejemplos descomentando solamente la linea con ejemplo de interes
-    #resultados = planificar_hospital(prioridad_ej_1, pacientes_ej_1, capacidad_ej_1, recursos_por_paciente_ej_1, recursos_disponibles_ej_1)
+    resultados = planificar_hospital(prioridad_ej_1, pacientes_ej_1, capacidad_ej_1, recursos_por_paciente_ej_1, recursos_disponibles_ej_1)
     #resultados = planificar_hospital(prioridad_ej_2, pacientes_ej_2, capacidad_ej_2, recursos_por_paciente_ej_2, recursos_disponibles_ej_2)
     #resultados = planificar_hospital(prioridad_ej_3, pacientes_ej_3, capacidad_ej_3, recursos_por_paciente_ej_3, recursos_disponibles_ej_3)
     #resultados = planificar_hospital(prioridad_ej_4, pacientes_ej_4, capacidad_ej_4, recursos_por_paciente_ej_4, recursos_disponibles_ej_4)
