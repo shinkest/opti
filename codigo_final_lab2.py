@@ -1,3 +1,4 @@
+import time
 from pulp import LpProblem, LpMinimize, LpVariable, lpSum, LpStatus
 
 def optimizar_gestion_residuos(municipalidades, actividades, R, F, I, C):
@@ -40,8 +41,15 @@ def optimizar_gestion_residuos(municipalidades, actividades, R, F, I, C):
             # Asignación mínima por actividad
             model += x[a, m] >= C[a], f"Asignacion_Minima_{a}_{m}"
 
+    # Medir el tiempo de ejecución
+    start_time = time.time()
+
     # Resolver el modelo
     model.solve()
+
+    # Calcular el tiempo de ejecución
+    end_time = time.time()
+    elapsed_time = end_time - start_time  # Tiempo en segundos
 
     # Preparar resultados
     results = {}
@@ -52,7 +60,7 @@ def optimizar_gestion_residuos(municipalidades, actividades, R, F, I, C):
         }
     objetivo = model.objective.value()
 
-    return results, objetivo
+    return results, objetivo, elapsed_time
 
 # 10 Ejemplos
 municipalidades = ['M1', 'M2', 'M3']
@@ -128,14 +136,15 @@ C10 = {'Educacion_Ambiental': 10050000, 'Fomento_Reciclaje': 23000000, 'Economia
 #resultados, objetivo = optimizar_gestion_residuos(municipalidades, actividades, R7, F7, I7, C7)
 #resultados, objetivo = optimizar_gestion_residuos(municipalidades, actividades, R8, F8, I8, C8)
 #resultados, objetivo = optimizar_gestion_residuos(municipalidades, actividades, R9, F9, I9, C9)
-resultados, objetivo = optimizar_gestion_residuos(municipalidades, actividades, R10, F10, I10, C10)
+resultados, objetivo, tiempo = optimizar_gestion_residuos(municipalidades, actividades, R10, F10, I10, C10)
 
 
 # Imprimir resultados
 print("Resultados:")
 for m, data in resultados.items():
-    print(f"Municipalidad: {m}")
+    print(f"\nMunicipalidad: {m}")
     print(f"  Reducción de residuos: {data['reduccion_residuos']:.2f} toneladas")
     for a, fondos in data['fondos_asignados'].items():
         print(f"  Fondos asignados a {a}: ${fondos:.2f}")
 print(f"\nObjetivo (residuos totales minimizados): {objetivo:.2f}")
+print(f"Tiempo computacional: {tiempo:.4f} segundos\n")
