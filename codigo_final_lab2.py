@@ -1,10 +1,10 @@
 import time
-from pulp import LpProblem, LpMinimize, LpVariable, lpSum, LpStatus
+from pulp import LpProblem, LpMinimize, LpVariable, lpSum, LpStatus, LpMaximize
 
 def optimizar_gestion_residuos(municipalidades, actividades, R, F, I, C):
     """
-    Función para optimizar la gestión de residuos minimizando los residuos finales.
-    
+    Función para optimizar la gestión de residuos maximizando la reducción de residuos.
+
     Parámetros:
     - municipalidades: Lista de municipalidades.
     - actividades: Lista de actividades disponibles.
@@ -12,20 +12,21 @@ def optimizar_gestion_residuos(municipalidades, actividades, R, F, I, C):
     - F: Diccionario con fondos disponibles (pesos chilenos) por municipalidad.
     - I: Diccionario con impacto (toneladas evitadas por peso invertido) por actividad.
     - C: Diccionario con costo mínimo de cada actividad (pesos chilenos).
-    
+
     Retorno:
     - results: Diccionario con los fondos asignados y residuos reducidos por municipalidad.
-    - objetivo: Valor de la función objetivo (residuos totales minimizados).
+    - objetivo: Valor de la función objetivo (residuos totales REDUCIDOS).
+    - elapsed_time: Tiempo de ejecución del modelo.
     """
     # Variables de decisión
     x = {(a, m): LpVariable(f"x_{a}_{m}", lowBound=0, cat='Continuous') for a in actividades for m in municipalidades}
     y = {m: LpVariable(f"y_{m}", lowBound=0, cat='Continuous') for m in municipalidades}
 
     # Problema de optimización
-    model = LpProblem("Gestion_de_Residuos", LpMinimize)
+    model = LpProblem("Gestion_de_Residuos", LpMaximize) # Cambiado a LpMaximize
 
-    # Función objetivo: Minimizar residuos finales
-    model += lpSum(R[m] - y[m] for m in municipalidades), "Minimizar_Residuos_Finales"
+    # Función objetivo: Maximizar la reducción de residuos
+    model += lpSum(y[m] for m in municipalidades), "Maximizar_Reduccion_Residuos" # Función objetivo modificada
 
     # Restricciones
     for m in municipalidades:
@@ -33,7 +34,7 @@ def optimizar_gestion_residuos(municipalidades, actividades, R, F, I, C):
         model += y[m] == lpSum((I[a] * x[a, m]) / C[a] for a in actividades), f"Calculo_Reduccion_Residuos_{m}"
         # Restricción de presupuesto
         model += lpSum(x[a, m] for a in actividades) <= F[m], f"Presupuesto_{m}"
-        # Límite de residuos reducidos
+        # Límite de residuos reducidos (importante mantener esta restricción)
         model += y[m] <= R[m], f"Limite_Residuos_Reducidos_{m}"
 
     for a in actividades:
@@ -49,7 +50,7 @@ def optimizar_gestion_residuos(municipalidades, actividades, R, F, I, C):
 
     # Calcular el tiempo de ejecución
     end_time = time.time()
-    elapsed_time = end_time - start_time  # Tiempo en segundos
+    elapsed_time = end_time - start_time
 
     # Preparar resultados
     results = {}
@@ -127,15 +128,15 @@ I10 = {'Educacion_Ambiental': 6000, 'Fomento_Reciclaje': 14000, 'Economia_Circul
 C10 = {'Educacion_Ambiental': 10050000, 'Fomento_Reciclaje': 23000000, 'Economia_Circular': 33000000}
 
 # Llamar la función
-#resultados, objetivo = optimizar_gestion_residuos(municipalidades, actividades, R1, F1, I1, C1)
-#resultados, objetivo = optimizar_gestion_residuos(municipalidades, actividades, R2, F2, I2, C2)
-#resultados, objetivo = optimizar_gestion_residuos(municipalidades, actividades, R3, F3, I3, C3)
-#resultados, objetivo = optimizar_gestion_residuos(municipalidades, actividades, R4, F4, I4, C4)
-#resultados, objetivo = optimizar_gestion_residuos(municipalidades, actividades, R5, F5, I5, C5)
-#resultados, objetivo = optimizar_gestion_residuos(municipalidades, actividades, R6, F6, I6, C6)
-#resultados, objetivo = optimizar_gestion_residuos(municipalidades, actividades, R7, F7, I7, C7)
-#resultados, objetivo = optimizar_gestion_residuos(municipalidades, actividades, R8, F8, I8, C8)
-#resultados, objetivo = optimizar_gestion_residuos(municipalidades, actividades, R9, F9, I9, C9)
+#resultados, objetivo, tiempo = optimizar_gestion_residuos(municipalidades, actividades, R1, F1, I1, C1)
+#resultados, objetivo, tiempo = optimizar_gestion_residuos(municipalidades, actividades, R2, F2, I2, C2)
+#resultados, objetivo, tiempo = optimizar_gestion_residuos(municipalidades, actividades, R3, F3, I3, C3)
+#resultados, objetivo, tiempo = optimizar_gestion_residuos(municipalidades, actividades, R4, F4, I4, C4)
+#resultados, objetivo, tiempo = optimizar_gestion_residuos(municipalidades, actividades, R5, F5, I5, C5)
+#resultados, objetivo, tiempo = optimizar_gestion_residuos(municipalidades, actividades, R6, F6, I6, C6)
+#resultados, objetivo, tiempo = optimizar_gestion_residuos(municipalidades, actividades, R7, F7, I7, C7)
+#resultados, objetivo, tiempo = optimizar_gestion_residuos(municipalidades, actividades, R8, F8, I8, C8)
+#resultados, objetivo, tiempo = optimizar_gestion_residuos(municipalidades, actividades, R9, F9, I9, C9)
 resultados, objetivo, tiempo = optimizar_gestion_residuos(municipalidades, actividades, R10, F10, I10, C10)
 
 
@@ -144,7 +145,8 @@ print("Resultados:\n")
 for m, data in resultados.items():
     print(f"Municipalidad: {m}")
     print(f"  Residuos anuales generados antes de optimización: {R10[m]:,.0f} toneladas")
-    print(f"  Residuos anuales generados luego de optimización: {data['reduccion_residuos']:,.0f} toneladas")
+    print(f"  Residuos a reducir producto de la optimización: {data['reduccion_residuos']:,.0f} toneladas")
+    print(f"  Residuos anuales generados después de optimización: {R10[m] - data['reduccion_residuos']:,.0f} toneladas")
     for a, fondos in data['fondos_asignados'].items():
         print(f"  Fondos asignados a {a}: ${fondos:,.0f}")
 print(f"\nObjetivo (residuos totales minimizados): {objetivo:,.2f}")
