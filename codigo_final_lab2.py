@@ -67,10 +67,10 @@ municipalidades = ['M1', 'M2', 'M3']
 actividades = ['Educacion_Ambiental', 'Fomento_Reciclaje', 'Economia_Circular']
 
 # Ejemplo 1
-R1 = {'M1': 330900, 'M2': 258300, 'M3': 202600}
-F1 = {'M1': 9005000, 'M2': 9508000, 'M3': 7770000}
-I1 = {'Educacion_Ambiental': 5000, 'Fomento_Reciclaje': 10000, 'Economia_Circular': 15000}
-C1 = {'Educacion_Ambiental': 3500000, 'Fomento_Reciclaje': 1230000, 'Economia_Circular': 3507800}
+R1 = {'M1': 330900, 'M2': 258300, 'M3': 202600} # Residuos anuales generados (en toneladas)
+F1 = {'M1': 9005000, 'M2': 9508000, 'M3': 7770000} # Fondos disponibles (en pesos chilenos)
+I1 = {'Educacion_Ambiental': 5000, 'Fomento_Reciclaje': 10000, 'Economia_Circular': 15000} # Impacto (toneladas evitadas por peso invertido)
+C1 = {'Educacion_Ambiental': 3500000, 'Fomento_Reciclaje': 1230000, 'Economia_Circular': 3507800} # Costo mínimo de cada actividad (en pesos chilenos)
 
 # Ejemplo 2
 R2 = {'M1': 350000, 'M2': 270000, 'M3': 190000}
