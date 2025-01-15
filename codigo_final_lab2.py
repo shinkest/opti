@@ -140,11 +140,12 @@ resultados, objetivo, tiempo = optimizar_gestion_residuos(municipalidades, activ
 
 
 # Imprimir resultados
-print("Resultados:")
+print("Resultados:\n")
 for m, data in resultados.items():
-    print(f"\nMunicipalidad: {m}")
-    print(f"  Reducción de residuos: {data['reduccion_residuos']:.2f} toneladas")
+    print(f"Municipalidad: {m}")
+    print(f"  Residuos anuales generados antes de optimización: {R10[m]:,.0f} toneladas")
+    print(f"  Residuos anuales generados luego de optimización: {data['reduccion_residuos']:,.0f} toneladas")
     for a, fondos in data['fondos_asignados'].items():
-        print(f"  Fondos asignados a {a}: ${fondos:.2f}")
-print(f"\nObjetivo (residuos totales minimizados): {objetivo:.2f}")
+        print(f"  Fondos asignados a {a}: ${fondos:,.0f}")
+print(f"\nObjetivo (residuos totales minimizados): {objetivo:,.2f}")
 print(f"Tiempo computacional: {tiempo:.4f} segundos\n")
